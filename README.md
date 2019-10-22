@@ -23,7 +23,7 @@ services:
 
 ## Planned features
 
-- use ENV to initilize `OoklaServer.properties`
+- use ENV to initialize `OoklaServer.properties`
 - provide volumes to mount custom certificates as LE doesn't properly work inside the container
 
 ## Register your server with Ookla
