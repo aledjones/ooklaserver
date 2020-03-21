@@ -2,6 +2,7 @@
 
 Ookla Server for Linux/Unix as Docker container
 
+![](https://github.com/aledjones/ooklaserver/workflows/Docker/badge.svg)
 
 ## How to use?
 
