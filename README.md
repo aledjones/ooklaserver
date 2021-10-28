@@ -13,13 +13,23 @@ docker run -p 8080:8080 -p 5060:5060 aledjones/ooklaserver
 or use it in `docker-compose`:
 ```yaml
 version: '3'
+volumes:
+  certs:
 services:
   server:
-  image: aledjones/ooklaserver
-  restart: always
-  ports:
+    image: aledjones/ooklaserver
+    environment:
+      #OOKLASERVER_TCPPORTS: '5060,8080'
+      #OOKLASERVER_UDPPORTS: '5060,8080'
+      OPENSSL_SERVER_CERTIFICATEFILE: /home/ookla/cert.pem
+      OPENSSL_SERVER_PRIVATEKEYFILE: /home/ookla/key.pem
+      #OOKLASERVER_ALLOWEDDOMAINS: '*.ookla.com, *.speedtest.net'
+    restart: always
+    ports:
     - 8080:8080
     - 5060:5060
+    volumes:
+    - certs:/home/ookla:ro
 ```
 
 ## Planned features
