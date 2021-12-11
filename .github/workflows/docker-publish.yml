@@ -3,8 +3,8 @@ name: Docker
 on:
   push:
     branches: master
-  pull_request:
-
+  schedule:
+    - cron:  '45 0 */10 * *'
 env:
   IMAGE_NAME: ooklaserver
 
