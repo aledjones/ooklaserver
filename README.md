@@ -21,6 +21,7 @@ services:
     environment:
       #OOKLASERVER_TCPPORTS: '5060,8080'
       #OOKLASERVER_UDPPORTS: '5060,8080'
+      OOKLASERVER_SSL_USELETSENCRYPT: 'false'
       OPENSSL_SERVER_CERTIFICATEFILE: /home/ookla/cert.pem
       OPENSSL_SERVER_PRIVATEKEYFILE: /home/ookla/key.pem
       #OOKLASERVER_ALLOWEDDOMAINS: '*.ookla.com, *.speedtest.net'
