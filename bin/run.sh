@@ -91,7 +91,7 @@ OoklaServer.enableAutoUpdate = true
 
 # Enable Let's Encrypt certificate generation (default)
 #
-#OoklaServer.ssl.useLetsEncrypt = false
+OoklaServer.ssl.useLetsEncrypt = ${OOKLASERVER_SSL_USELETSENCRYPT}
 
 # To use a custom certificate, create a certificate and private key and set the path to them here:
 # (Note, this will disable Let's Encrypt certificate generation)
