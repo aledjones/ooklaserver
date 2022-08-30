@@ -29,3 +29,4 @@ jobs:
       - name: Push Image to Docker Hub
         run: |
           docker push ${{ secrets.hub_user }}/$IMAGE_NAME:latest
+          
