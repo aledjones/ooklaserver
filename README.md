@@ -29,8 +29,8 @@ services:
       HTTPS_METHOD: noredirect
     restart: unless-stopped
     ports:
-    - 8080:8080
-    - 5060:5060
+    - 8080:8080/udp
+    - 5060:5060/udp
     volumes:
     - certs:/home/ookla:ro
 
@@ -50,8 +50,7 @@ _Please be aware, that Ookla requires you to setup a fallback option with HTTP. 
 
 
 
-_Ookla_
+_Ookla:_
+
 _We are expanding the packet loss testing capabilities of the Speedtest Server Network by implementing User Datagram Protocol (UDP). If you’re currently using Transmission Control Protocol (TCP), we ask that you reconfigure your server to use UDP._
- 
-_By enabling UDP on your Speedtest Server, you will get packet capture test information that you would not get with TCP. To enable UDP Support on your Speedtest Server, perform the following actions: Ensure that firewall rules allow UDP through port 8080 through IPtables or through any FW protocols setup on the machine Please note: if there is any pop in the network path from client to server that blocks UDP traffic a packet capture test will not be performed and result in a N/A result for that datapoint Open OoklaServer.properties in a text editor Ensure that OoklaServer.udpPorts = 5060,8080 is uncommented (uncommented by default) Save OoklaServer.properties Restart the daemon Linux ./ooklaserver.sh restart Windows _
 
