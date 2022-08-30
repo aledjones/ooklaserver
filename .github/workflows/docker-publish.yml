@@ -26,5 +26,5 @@ jobs:
         run: echo "${{ secrets.hub_token  }}" | docker login -u ${{ secrets.hub_user }} --password-stdin
       - name: Push Image to Docker Hub
         run: 
-          docker push ${{ secrets.hub_user }}/$IMAGE_NAME:${{ GITHUB_SHA }}
+          docker push ${{ secrets.hub_user }}/$IMAGE_NAME:$GITHUB_SHA
           docker push ${{ secrets.hub_user }}/$IMAGE_NAME:latest
