@@ -28,3 +28,4 @@ jobs:
         run: 
           docker push ${{ secrets.hub_user }}/$IMAGE_NAME:$GITHUB_SHA
           docker push ${{ secrets.hub_user }}/$IMAGE_NAME:latest
+
