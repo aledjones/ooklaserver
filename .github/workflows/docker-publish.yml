@@ -20,11 +20,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build image
-        run: |
-          docker build . --file Dockerfile -t ${{ secrets.hub_user }}/$IMAGE_NAME:latest
+        run: | 
+          - docker build . --file Dockerfile -t ${{ secrets.hub_user }}/$IMAGE_NAME:${{ github.sha }}
+            docker build . --file Dockerfile -t ${{ secrets.hub_user }}/$IMAGE_NAME:latest
       - name: Login to Docker Hub
         run: echo "${{ secrets.hub_token  }}" | docker login -u ${{ secrets.hub_user }} --password-stdin
       - name: Push Image to Docker Hub
-        run: 
-          docker push ${{ secrets.hub_user }}/$IMAGE_NAME:latest
+        run: | 
+          - docker push ${{ secrets.hub_user }}/$IMAGE_NAME:${{ hithub.sha}}
+            docker push ${{ secrets.hub_user }}/$IMAGE_NAME:latest
 
