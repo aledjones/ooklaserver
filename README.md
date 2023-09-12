@@ -4,8 +4,6 @@ Ookla Server for Linux/Unix as Docker container
 
 ![Docker](https://github.com/RootShell-coder/ooklaserver/actions/workflows/docker-publish.yml/badge.svg)
 
-__forked from [aledjones/ooklaserver](https://github.com/aledjones/ooklaserver)__
-
 ## How to use?
 `docker-compose`:
 ```yaml
@@ -38,7 +36,7 @@ services:
 
 
 ## Register your server with Ookla
-Please refer to the guide: 
+Please refer to the guide:
 
 * [How To Install & Submit Server](https://support.ookla.com/hc/en-us/articles/234578568-How-To-Install-Submit-Server).
 
@@ -53,4 +51,3 @@ _Please be aware, that Ookla requires you to setup a fallback option with HTTP. 
 _Ookla:_
 
 _We are expanding the packet loss testing capabilities of the Speedtest Server Network by implementing User Datagram Protocol (UDP). If you’re currently using Transmission Control Protocol (TCP), we ask that you reconfigure your server to use UDP._
-

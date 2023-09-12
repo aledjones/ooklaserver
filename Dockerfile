@@ -1,25 +1,31 @@
-FROM debian:buster-slim as BuildContainer
-RUN apt update && apt install wget -y
-RUN mkdir /usr/src/ooklaserver
-RUN wget https://install.speedtest.net/ooklaserver/ooklaserver.sh && chmod a+x ooklaserver.sh
-RUN ./ooklaserver.sh install -f -i /usr/src/ooklaserver
+FROM alpine:latest AS builder
+WORKDIR  /usr/src/ooklaserver
+RUN set eux; \
+    apk add --update --no-cache \
+    wget \
+    bash \
+    libgcc \
+    gcompat; \
+    addgroup -S speedtest; \
+    adduser -S speedtest -G speedtest -h /usr/src/ooklaserver -s /bin/bash;
+USER speedtest
+RUN set eux; \
+    wget https://install.speedtest.net/ooklaserver/ooklaserver.sh && chmod a+x ooklaserver.sh; \
+    ./ooklaserver.sh install -f -i /usr/src/ooklaserver;
 
-FROM debian:buster-slim
-EXPOSE 8080
-EXPOSE 5060
-
-ENV OOKLASERVER_TCPPORTS 5060,8080
-ENV OOKLASERVER_UDPPORTS 5060,8080
-ENV OOKLASERVER_SSL_USELETSENCRYPT: true
-ENV OOKLASERVER_ALLOWEDDOMAINS *.ookla.com, *.speedtest.net
-ENV OPENSSL_SERVER_CERTIFICATEFILE cert.pem
-ENV OPENSSL_SERVER_PRIVATEKEYFILE key.pem
-
-RUN useradd -M -r -s /sbin/nologin -u 4711 ookla
-COPY --chown=ookla --from=BuildContainer /usr/src/ooklaserver /srv/ooklaserver
-RUN mkdir -p /usr/local/bin
-ADD ./bin /usr/local/bin
-RUN chmod +x /usr/local/bin/*.sh
-USER ookla:ookla
-WORKDIR /srv/ooklaserver
-ENTRYPOINT ["/usr/local/bin/run.sh"]
+FROM alpine:latest
+WORKDIR  /srv/ooklaserver
+COPY entrypoint /usr/bin
+RUN set eux; \
+    apk add --update --no-cache \
+    curl \
+    libgcc \
+    gcompat; \
+    addgroup -S speedtest; \
+    adduser -S speedtest -G speedtest -h /srv/ooklaserver -s /bin/ash; \
+    chmod a+x /usr/bin/entrypoint
+HEALTHCHECK --interval=20s --timeout=10s --retries=5 CMD curl -sS 127.0.0.1:8080 || exit 1
+USER speedtest
+COPY --chown=speedtest:speedtest --from=builder /usr/src/ooklaserver .
+ENTRYPOINT ["entrypoint"]
+CMD ["/srv/ooklaserver/OoklaServer"]

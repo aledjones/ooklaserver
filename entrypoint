@@ -1,0 +1,26 @@
+#!/bin/sh
+
+properties_file=/srv/ooklaserver/OoklaServer.properties
+OOKLASERVER_TCPPORTS=${OOKLASERVER_TCPPORTS:-5060,8080}
+OOKLASERVER_UDPPORTS=${OOKLASERVER_TCPPORTS:-5060,8080}
+sed -i "s!OoklaServer.tcpPorts = 5060,8080!OoklaServer.tcpPorts = ${OOKLASERVER_TCPPORTS}!" ${properties_file}
+sed -i "s!OoklaServer.udpPorts = 5060,8080!OoklaServer.udpPorts = ${OOKLASERVER_UDPPORTS}!" ${properties_file}
+
+if [ -n "$OOKLASERVER_ENABLEAUTOUPDATE" ]; then
+sed -i "s!# OoklaServer.enableAutoUpdate = true!OoklaServer.enableAutoUpdate = ${OOKLASERVER_ENABLEAUTOUPDATE}!" ${properties_file}
+fi
+
+if [ -v "$OOKLASERVER_ALLOWEDDOMAINS" ]; then
+sed -i "s!# OoklaServer.allowedDomains = *.ookla.com, *.speedtest.net!OoklaServer.allowedDomains = ${OOKLASERVER_ALLOWEDDOMAINS}!" ${properties_file}
+fi
+
+if [ -n "$OOKLASERVER_SSL_USELETSENCRYPT" ]; then
+sed -i "s!# OoklaServer.ssl.useLetsEncrypt = true!OoklaServer.ssl.useLetsEncrypt = ${OOKLASERVER_SSL_USELETSENCRYPT}!" ${properties_file}
+fi
+
+if [ -n "$OPENSSL_SERVER_CERTIFICATEFILE" && "$OPENSSL_SERVER_PRIVATEKEYFILE" ]; then
+sed -i "s!# openSSL.server.certificateFile = cert.pem!openSSL.server.certificateFile = ${OPENSSL_SERVER_CERTIFICATEFILE}!" ${properties_file}
+sed -i "s!# openSSL.server.privateKeyFile = key.pem!openSSL.server.privateKeyFile = ${OPENSSL_SERVER_PRIVATEKEYFILE }!" ${properties_file}
+fi
+
+exec "$@"

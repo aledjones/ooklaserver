@@ -1,0 +1,28 @@
+---
+version: '3.9'
+
+volumes:
+  cert:
+    name: cert
+    driver_opts:
+      type: local
+      device: '/srv/exporter/cert'
+      o: bind
+
+services:
+  ookla:
+    image: rootshellcoder/ooklaserver
+    restart: unless-stopped
+    environment:
+      OOKLASERVER_TCPPORTS: '5060,8080'
+      OOKLASERVER_UDPPORTS: '5060,8080'
+      OOKLASERVER_ENABLEAUTOUPDATE: 'true'
+      OOKLASERVER_SSL_USELETSENCRYPT: 'false'
+      OPENSSL_SERVER_CERTIFICATEFILE: /srv/ooklaserver/cert/cert.pem
+      OPENSSL_SERVER_PRIVATEKEYFILE: /srv/ooklaserver/cert/key.pem
+      OOKLASERVER_ALLOWEDDOMAINS: '*.ookla.com, *.speedtest.net'
+    volumes:
+    - cert:/srv/ooklaserver/cert:ro
+    ports:
+    - 8080:8080
+    - 5060:5060
